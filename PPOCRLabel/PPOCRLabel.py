@@ -1961,10 +1961,11 @@ class MainWindow(QMainWindow):
             deleteInfo = self.deleteImgDialog()
             if deleteInfo == QMessageBox.Yes:
                 if platform.system() == 'Windows':
-                    from win32com import shell, shellcon
-                    shell.SHFileOperation((0, shellcon.FO_DELETE, deletePath, None,
-                                           shellcon.FOF_SILENT | shellcon.FOF_ALLOWUNDO | shellcon.FOF_NOCONFIRMATION,
-                                           None, None))
+                    # from win32com import shell, shellcon
+                    # shell.SHFileOperation((0, shellcon.FO_DELETE, deletePath, None,
+                    #                        shellcon.FOF_SILENT | shellcon.FOF_ALLOWUNDO | shellcon.FOF_NOCONFIRMATION,
+                    #                        None, None))
+                    os.remove(deletePath)
                     # linux
                 elif platform.system() == 'Linux':
                     cmd = 'trash ' + deletePath
