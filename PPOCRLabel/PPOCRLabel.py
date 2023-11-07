@@ -21,6 +21,8 @@ import os.path
 import platform
 import subprocess
 import sys
+import traceback
+
 import xlrd
 from functools import partial
 
@@ -2673,9 +2675,11 @@ class MainWindow(QMainWindow):
                         cv2.imencode(".jpg",img_crop)[1].tofile(crop_img_dir + img_name)
                         f.write('crop_img/' + img_name + '\t')
                         f.write(label['transcription'] + '\n')
+                except KeyError as e:
+                    pass
                 except Exception as e:
                     ques_img.append(key)
-                    print("Can not read image ", e)
+                    traceback.print_exc()
         if ques_img:
             QMessageBox.information(self,
                                     "Information",

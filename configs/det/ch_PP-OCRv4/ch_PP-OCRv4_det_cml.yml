@@ -27,7 +27,7 @@ Architecture:
       algorithm: DB
       Transform: null
       Backbone:
-        name: PPLCNetNew
+        name: PPLCNet
         scale: 0.75
         pretrained: false
       Neck:
@@ -43,7 +43,7 @@ Architecture:
       algorithm: DB
       Transform: null
       Backbone:
-        name: PPLCNetNew
+        name: PPLCNet
         scale: 0.75
         pretrained: true
       Neck:
@@ -134,9 +134,9 @@ Metric:
 Train:
   dataset:
     name: SimpleDataSet
-    data_dir: ./train_data/icdar2015/text_localization/
+    data_dir: ./train_data/
     label_file_list:
-      - ./train_data/icdar2015/text_localization/train_icdar2015_label.txt
+      - ./train_data/1/Label.txt
     ratio_list: [1.0]
     transforms:
     - DecodeImage:
@@ -200,9 +200,9 @@ Train:
 Eval:
   dataset:
     name: SimpleDataSet
-    data_dir: ./train_data/icdar2015/text_localization/
+    data_dir: ./train_data/
     label_file_list:
-      - ./train_data/icdar2015/text_localization/test_icdar2015_label.txt
+      - ./train_data/1/Label.txt
     transforms:
     - DecodeImage:
         img_mode: BGR
