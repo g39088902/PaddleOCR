@@ -70,7 +70,7 @@ Train:
     name: SimpleDataSet
     data_dir: ./train_data/
     label_file_list:
-      - ./train_data/1/Label.txt
+      - ./train_data/202311121026/train.txt
     ratio_list: [1.0]
     transforms:
     - DecodeImage:
@@ -138,7 +138,7 @@ Eval:
     name: SimpleDataSet
     data_dir: ./train_data/
     label_file_list:
-      - ./train_data/1/Label.txt
+      - ./train_data/202311121026/eval.txt
     transforms:
     - DecodeImage:
         img_mode: BGR
