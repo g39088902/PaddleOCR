@@ -501,7 +501,7 @@ class MainWindow(QMainWindow):
                        'Ctrl+Shift+R', 'reRec', getStr('reRecognition'), enabled=False)
 
         singleRere = action(getStr('singleRe'), self.singleRerecognition,
-                            'Ctrl+R', 'reRec', getStr('singleRe'), enabled=False)
+                            'R', 'reRec', getStr('singleRe'), enabled=False)
 
         createpoly = action(getStr('creatPolygon'), self.createPolygon,
                             'q', 'new', getStr('creatPolygon'), enabled=False)
