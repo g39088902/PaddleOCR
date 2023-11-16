@@ -1,17 +1,17 @@
 Global:
   debug: false
   use_gpu: true
-  epoch_num: 500
+  epoch_num: 5
   log_smooth_window: 20
   print_batch_step: 20
   save_model_dir: ./output/ch_PP-OCRv4
-  save_epoch_step: 50
+  save_epoch_step: 5
   eval_batch_step:
   - 0
-  - 1000
-  cal_metric_during_train: true
+  - 10
+  cal_metric_during_train: False
   checkpoints: null
-  pretrained_model: null
+  pretrained_model: C:\Users\76518\PycharmProjects\PaddleOCR\output\ch_PP-OCRv4\ch_PP-OCRv4_det_train_distill
   save_inference_dir: null
   use_visualdl: false
   infer_img: doc/imgs_en/img_10.jpg
@@ -27,7 +27,7 @@ Architecture:
       algorithm: DB
       Transform: null
       Backbone:
-        name: PPLCNet
+        name: PPLCNetV3
         scale: 0.75
         pretrained: false
       Neck:
@@ -43,7 +43,7 @@ Architecture:
       algorithm: DB
       Transform: null
       Backbone:
-        name: PPLCNet
+        name: PPLCNetV3
         scale: 0.75
         pretrained: true
       Neck:
@@ -136,7 +136,7 @@ Train:
     name: SimpleDataSet
     data_dir: ./train_data/
     label_file_list:
-      - ./train_data/1/Label.txt
+      - ./train_data/总数据/train.txt
     ratio_list: [1.0]
     transforms:
     - DecodeImage:
@@ -202,7 +202,7 @@ Eval:
     name: SimpleDataSet
     data_dir: ./train_data/
     label_file_list:
-      - ./train_data/1/Label.txt
+      - ./train_data/总数据/eval.txt
     transforms:
     - DecodeImage:
         img_mode: BGR
