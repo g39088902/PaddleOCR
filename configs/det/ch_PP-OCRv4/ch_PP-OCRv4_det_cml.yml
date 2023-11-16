@@ -1,17 +1,17 @@
 Global:
   debug: false
   use_gpu: true
-  epoch_num: 5
+  epoch_num: 20
   log_smooth_window: 20
   print_batch_step: 20
   save_model_dir: ./output/ch_PP-OCRv4
-  save_epoch_step: 5
+  save_epoch_step: 2
   eval_batch_step:
   - 0
-  - 10
+  - 300
   cal_metric_during_train: False
   checkpoints: null
-  pretrained_model: C:\Users\76518\PycharmProjects\PaddleOCR\output\ch_PP-OCRv4\ch_PP-OCRv4_det_train_distill
+  pretrained_model: C:\Users\empathy\PycharmProjects\PaddleOCR\output\ch_PP-OCRv4_det_train_distill
   save_inference_dir: null
   use_visualdl: false
   infer_img: doc/imgs_en/img_10.jpg
@@ -29,6 +29,7 @@ Architecture:
       Backbone:
         name: PPLCNetV3
         scale: 0.75
+        det: true
         pretrained: false
       Neck:
         name: RSEFPN
@@ -45,6 +46,7 @@ Architecture:
       Backbone:
         name: PPLCNetV3
         scale: 0.75
+        det: true
         pretrained: true
       Neck:
         name: RSEFPN
@@ -112,7 +114,7 @@ Optimizer:
   beta2: 0.999
   lr:
     name: Cosine
-    learning_rate: 0.001
+    learning_rate: 0.0005
     warmup_epoch: 2
   regularizer:
     name: L2
@@ -195,7 +197,7 @@ Train:
   loader:
     shuffle: true
     drop_last: false
-    batch_size_per_card: 16
+    batch_size_per_card: 8
     num_workers: 8
 Eval:
   dataset:

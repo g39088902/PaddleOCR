@@ -76,15 +76,11 @@ class MakeBorderMap(object):
         polygon_shape = Polygon(polygon)
         if polygon_shape.area <= 0:
             return
-        distance = polygon_shape.area * (
-            1 - np.power(self.shrink_ratio, 2)) / polygon_shape.length
+        distance = polygon_shape.area * (1 - np.power(self.shrink_ratio, 2)) / polygon_shape.length
         subject = [tuple(l) for l in polygon]
         padding = pyclipper.PyclipperOffset()
         padding.AddPath(subject, pyclipper.JT_ROUND, pyclipper.ET_CLOSEDPOLYGON)
-        padding_list = padding.Execute(distance)
-        if len(padding_list) == 0:
-            return
-        padded_polygon = np.array(padding_list[0])
+        padded_polygon = np.array(padding.Execute(distance)[0])
         cv2.fillPoly(mask, [padded_polygon.astype(np.int32)], 1.0)
 
         xmin = padded_polygon[:, 0].min()
