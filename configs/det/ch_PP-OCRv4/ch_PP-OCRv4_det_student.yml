@@ -1,14 +1,14 @@
 Global:
   debug: false
   use_gpu: true
-  epoch_num: &epoch_num 500
+  epoch_num: &epoch_num 20
   log_smooth_window: 20
-  print_batch_step: 100
+  print_batch_step: 15
   save_model_dir: ./output/ch_PP-OCRv4
-  save_epoch_step: 50
+  save_epoch_step: 5
   eval_batch_step:
   - 0
-  - 50
+  - 100
   cal_metric_during_train: false
   checkpoints:
   pretrained_model: C:\Users\empathy\PycharmProjects\PaddleOCR\output\ch_PP-OCRv4_det_train_distill.pdparams
@@ -48,7 +48,7 @@ Optimizer:
   beta2: 0.999
   lr:
     name: Cosine
-    learning_rate: 0.0003 #(8*8c)
+    learning_rate: 0.0006 #(8*8c)
     warmup_epoch: 2
   regularizer:
     name: L2
@@ -70,7 +70,7 @@ Train:
     name: SimpleDataSet
     data_dir: ./train_data/
     label_file_list:
-      - ./train_data/202311121026/train.txt
+      - ./train_data/总数据/train.txt
     ratio_list: [1.0]
     transforms:
     - DecodeImage:
@@ -130,7 +130,7 @@ Train:
   loader:
     shuffle: true
     drop_last: false
-    batch_size_per_card: 20
+    batch_size_per_card: 12
     num_workers: 8
 
 Eval:
@@ -138,7 +138,7 @@ Eval:
     name: SimpleDataSet
     data_dir: ./train_data/
     label_file_list:
-      - ./train_data/202311121026/eval.txt
+      - ./train_data/总数据/eval.txt
     transforms:
     - DecodeImage:
         img_mode: BGR
