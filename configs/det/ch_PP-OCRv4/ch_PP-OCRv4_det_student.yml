@@ -10,8 +10,9 @@ Global:
   - 0
   - 200
   cal_metric_during_train: false
-  checkpoints:
-  pretrained_model: C:\Users\empathy\PycharmProjects\PaddleOCR\output\ch_PP-OCRv4\11171329
+  #查阅https://github.com/PaddlePaddle/PaddleOCR/issues/2564
+  checkpoints: #继续你上一次的训练，所有参数必须完全一致
+  pretrained_model: C:\Users\empathy\PycharmProjects\PaddleOCR\output\ch_PP-OCRv4\11171329   #用于迁移学习，模型可以做少量修改
   save_inference_dir: ./output/inference
   use_visualdl: false
   infer_img: doc/imgs/123.jpg
@@ -21,13 +22,13 @@ Global:
 Architecture:
   model_type: det
   algorithm: DB
-  Transform: null
+  Transform: null  #可以对图像进行旋转、缩放、裁剪、翻转等数据增强，与dataloader配合使用
   Backbone:
-    name: PPLCNetV3
+    name: PPLCNetV3   #Backbone，可自定义
     scale: 0.75
-    det: True
+    det: True  #序列问题
   Neck:
-    name: RSEFPN
+    name: RSEFPN  #特征融合,可自定义
     out_channels: 96
     shortcut: True
   Head:
@@ -43,12 +44,12 @@ Loss:
   ohem_ratio: 3
 
 Optimizer:
-  name: Adam
+  name: Adam  #优化器自定义
   beta1: 0.9
   beta2: 0.999
   lr:
     name: Cosine
-    learning_rate: 0.00005
+    learning_rate: 0.0001   #学习率
     warmup_epoch: 2
   regularizer:
     name: L2
@@ -72,13 +73,13 @@ Train:
     label_file_list:
       - ./train_data/总数据/train.txt
     ratio_list: [1.0]
-    transforms:
+    transforms: #同上
     - DecodeImage:
         img_mode: BGR
-        channel_first: false
-    - DetLabelEncode: null
-    - CopyPaste: null
-    - IaaAugment:
+        channel_first: false #指定是否将图像的通道维度放在第一维。
+    - DetLabelEncode: null #处理标签
+    - CopyPaste: null #数据增强模块，将图像中的某些区域复制到其他区域
+    - IaaAugment: #用于对图像进行仿射变换、缩放、裁剪、翻转等数据增强
         augmenter_args:
         - type: Fliplr
           args:
@@ -108,7 +109,7 @@ Train:
         shrink_ratio: 0.4
         min_text_size: 8
         total_epoch: *epoch_num
-    - NormalizeImage:
+    - NormalizeImage: #图像进行归一化
         scale: 1./255.
         mean:
         - 0.485
@@ -119,8 +120,8 @@ Train:
         - 0.224
         - 0.225
         order: hwc
-    - ToCHWImage: null
-    - KeepKeys:
+    - ToCHWImage: null #待补充将图片的通道维变为第一维，形状从[h, w, c]变成[c, h, w]
+    - KeepKeys: #保留输入字典中指定的键值对。将data从dict类型，变成了list
         keep_keys:
         - image
         - threshold_map
@@ -138,13 +139,13 @@ Eval:
     name: SimpleDataSet
     data_dir: ./train_data/
     label_file_list:
-      - ./train_data/总数据/train.txt
+      - ./train_data/总数据/eval.txt
     transforms:
     - DecodeImage:
         img_mode: BGR
         channel_first: false
     - DetLabelEncode: null
-    - DetResizeForTest:
+    - DetResizeForTest:  #防止eval显存溢出 设置limit
         limit_side_len: 960
         limit_type: max
     - NormalizeImage:
@@ -170,4 +171,4 @@ Eval:
     drop_last: false
     batch_size_per_card: 1
     num_workers: 2
-profiler_options: null
+profiler_options: null #指定性能分析器的选项
