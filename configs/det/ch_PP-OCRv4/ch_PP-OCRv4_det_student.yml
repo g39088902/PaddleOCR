@@ -11,8 +11,8 @@ Global:
   - 200
   cal_metric_during_train: false
   #查阅https://github.com/PaddlePaddle/PaddleOCR/issues/2564
-  checkpoints: #继续你上一次的训练，所有参数必须完全一致
-  pretrained_model: C:\Users\empathy\PycharmProjects\PaddleOCR\output\ch_PP-OCRv4\11171329   #用于迁移学习，模型可以做少量修改
+  checkpoints: output\ch_PP-OCRv4\best_accuracy #继续你上一次的训练，所有参数必须完全一致
+  pretrained_model:   #用于迁移学习，模型可以做少量修改
   save_inference_dir: ./output/inference
   use_visualdl: false
   infer_img: doc/imgs/123.jpg
@@ -53,7 +53,7 @@ Optimizer:
     warmup_epoch: 2
   regularizer:
     name: L2
-    factor: 0
+    factor: 0 #正则化系数 原来的数值:5.0e-05
 
 PostProcess:
   name: DBPostProcess
