@@ -3,17 +3,16 @@ Global:
   use_gpu: true
   epoch_num: &epoch_num 500
   log_smooth_window: 20
-  print_batch_step: 40
+  print_batch_step: 10
   save_model_dir: ./output/ch_PP-OCRv4
   save_epoch_step: 10
   eval_batch_step:
   - 0
-  - 200
+  - 40
   cal_metric_during_train: false
-  #查阅https://github.com/PaddlePaddle/PaddleOCR/issues/2564
-  checkpoints: output\ch_PP-OCRv4\best_accuracy #继续你上一次的训练，所有参数必须完全一致
-  pretrained_model:   #用于迁移学习，模型可以做少量修改
-  save_inference_dir: ./output/inference
+  checkpoints:
+  pretrained_model: null #output/official_student
+  save_inference_dir: null
   use_visualdl: false
   infer_img: doc/imgs/123.jpg
   save_res_path: ./checkpoints/det_db/predicts_db.txt
@@ -22,13 +21,13 @@ Global:
 Architecture:
   model_type: det
   algorithm: DB
-  Transform: null  #可以对图像进行旋转、缩放、裁剪、翻转等数据增强，与dataloader配合使用
+  Transform: null #可以对图像进行旋转、缩放、裁剪、翻转等数据增强，与dataloader配合使用
   Backbone:
-    name: PPLCNetV3   #Backbone，可自定义
+    name: PPLCNetV3 #Backbone，可自定义
     scale: 0.75
-    det: True  #序列问题
+    det: True #序列问题
   Neck:
-    name: RSEFPN  #特征融合,可自定义
+    name: RSEFPN #特征融合,可自定义
     out_channels: 96
     shortcut: True
   Head:
@@ -44,16 +43,16 @@ Loss:
   ohem_ratio: 3
 
 Optimizer:
-  name: Adam  #优化器自定义
+  name: Adam #优化器自定义
   beta1: 0.9
   beta2: 0.999
   lr:
     name: Cosine
-    learning_rate: 0.0001   #学习率
+    learning_rate: 0.00002 #学习率
     warmup_epoch: 2
   regularizer:
     name: L2
-    factor: 0 #正则化系数 原来的数值:5.0e-05
+    factor: 5.0e-05
 
 PostProcess:
   name: DBPostProcess
@@ -71,7 +70,7 @@ Train:
     name: SimpleDataSet
     data_dir: ./train_data/
     label_file_list:
-      - ./train_data/总数据/train.txt
+      - ./train_data/zongshuju/eval.txt
     ratio_list: [1.0]
     transforms: #同上
     - DecodeImage:
@@ -139,7 +138,7 @@ Eval:
     name: SimpleDataSet
     data_dir: ./train_data/
     label_file_list:
-      - ./train_data/总数据/eval.txt
+      - ./train_data/zongshuju/eval.txt
     transforms:
     - DecodeImage:
         img_mode: BGR

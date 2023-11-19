@@ -8,10 +8,10 @@ Global:
   save_epoch_step: 10
   eval_batch_step:
   - 0
-  - 1500
+  - 1
   cal_metric_during_train: false
   checkpoints:
-  pretrained_model: https://paddleocr.bj.bcebos.com/pretrained/PPHGNet_small_ocr_det.pdparams
+  pretrained_model: output/ch_PP-OCRv4_det_server_train_110M
   save_inference_dir: null
   use_visualdl: false
   infer_img: doc/imgs_en/img_10.jpg
@@ -69,9 +69,9 @@ Metric:
 Train:
   dataset:
     name: SimpleDataSet
-    data_dir: ./train_data/icdar2015/text_localization/
+    data_dir: ./train_data/
     label_file_list:
-      - ./train_data/icdar2015/text_localization/train_icdar2015_label.txt
+      - ./train_data/zongshuju/train.txt
     ratio_list: [1.0]
     transforms:
     - DecodeImage:
@@ -131,21 +131,23 @@ Train:
   loader:
     shuffle: true
     drop_last: false
-    batch_size_per_card: 8
-    num_workers: 8
+    batch_size_per_card: 16
+    num_workers: 16
 
 Eval:
   dataset:
     name: SimpleDataSet
-    data_dir: ./train_data/icdar2015/text_localization/
+    data_dir: ./train_data/
     label_file_list:
-      - ./train_data/icdar2015/text_localization/test_icdar2015_label.txt
+      - ./train_data/zongshuju/eval.txt
     transforms:
     - DecodeImage:
         img_mode: BGR
         channel_first: false
     - DetLabelEncode: null
     - DetResizeForTest:
+        limit_side_len: 960
+        limit_type: max
     - NormalizeImage:
         scale: 1./255.
         mean:

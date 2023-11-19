@@ -1,6 +1,6 @@
 import random
-input_file = "../train_data/总数据/Label.txt"
-ouput_path = "../train_data/总数据/"
+input_file = "../train_data/zongshuju/Label.txt"
+ouput_path = "../train_data/zongshuju/"
 input = open(input_file, 'r', encoding='utf-8')
 train_set = open(f"{ouput_path}/train.txt".format(ouput_path=ouput_path), 'w', encoding='utf-8')
 eval_set = open(f"{ouput_path}/eval.txt".format(ouput_path=ouput_path), 'w', encoding='utf-8')

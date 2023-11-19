@@ -8,10 +8,10 @@ Global:
   save_epoch_step: 50
   eval_batch_step:
   - 0
-  - 1000
+  - 20
   cal_metric_during_train: False
-  checkpoints: null
-  pretrained_model: C:\Users\empathy\PycharmProjects\PaddleOCR\output\best_accuracy
+  checkpoints: output/ch_PP-OCRv4_det_train_distill
+  pretrained_model: null
   save_inference_dir: ./output/inference
   use_visualdl: false
   infer_img: doc/imgs/123.jpg
@@ -23,6 +23,7 @@ Architecture:
   model_type: det
   Models:
     Student:
+      pretrained: output/ch_PP-OCRv4_det_train_distill
       model_type: det
       algorithm: DB
       Transform: null
@@ -39,7 +40,7 @@ Architecture:
         name: DBHead
         k: 50
     Student2:
-      pretrained: null
+      pretrained: output/ch_PP-OCRv4_det_train_distill
       model_type: det
       algorithm: DB
       Transform: null
@@ -138,7 +139,7 @@ Train:
     name: SimpleDataSet
     data_dir: ./train_data/
     label_file_list:
-      - ./train_data/总数据/train.txt
+      - ./train_data/zongshuju/train.txt
     ratio_list: [1.0]
     transforms:
     - DecodeImage:
@@ -197,14 +198,14 @@ Train:
   loader:
     shuffle: true
     drop_last: false
-    batch_size_per_card: 8
-    num_workers: 8
+    batch_size_per_card: 16
+    num_workers: 16
 Eval:
   dataset:
     name: SimpleDataSet
     data_dir: ./train_data/
     label_file_list:
-      - ./train_data/总数据/eval.txt
+      - ./train_data/zongshuju/eval.txt
     transforms:
     - DecodeImage:
         img_mode: BGR
