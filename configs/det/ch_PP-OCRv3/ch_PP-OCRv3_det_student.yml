@@ -5,13 +5,13 @@ Global:
   log_smooth_window: 20
   print_batch_step: 10
   save_model_dir: ./output/ch_PP-OCR_V3_det/
-  save_epoch_step: 100
+  save_epoch_step: 10
   eval_batch_step:
   - 0
-  - 60
+  - 50
   cal_metric_during_train: false
-  pretrained_model: null #output/official_student_v3
-  checkpoints: output/ch_PP-OCR_V3_det/best_accuracy
+  pretrained_model: output/official_student_v3
+  checkpoints: null
   save_inference_dir: null
   use_visualdl: false
   infer_img: doc/imgs_en/img_10.jpg
@@ -48,7 +48,7 @@ Optimizer:
   beta2: 0.999
   lr:
     name: Cosine
-    learning_rate: 0.0003
+    learning_rate: 0.0001
     warmup_epoch: 2
   regularizer:
     name: L2
@@ -67,7 +67,7 @@ Train:
     name: SimpleDataSet
     data_dir: ./train_data/
     label_file_list:
-      - ./train_data/zongshuju/train.txt
+      - ./train_data/total_data/train.txt
     ratio_list: [1.0]
     transforms:
     - DecodeImage:
@@ -124,14 +124,14 @@ Train:
   loader:
     shuffle: true
     drop_last: false
-    batch_size_per_card: 16
-    num_workers: 8
+    batch_size_per_card: 28
+    num_workers: 14
 Eval:
   dataset:
     name: SimpleDataSet
     data_dir: ./train_data/
     label_file_list:
-      - ./train_data/zongshuju/eval.txt
+      - ./train_data/total_data/eval.txt
     transforms:
     - DecodeImage:
         img_mode: BGR
