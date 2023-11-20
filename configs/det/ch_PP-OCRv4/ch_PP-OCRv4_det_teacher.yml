@@ -1,7 +1,7 @@
 Global:
   debug: false
   use_gpu: true
-  epoch_num: &epoch_num 500
+  epoch_num: 500
   log_smooth_window: 20
   print_batch_step: 100
   save_model_dir: ./output/ch_PP-OCRv4
@@ -10,8 +10,8 @@ Global:
   - 0
   - 1
   cal_metric_during_train: false
-  checkpoints:
-  pretrained_model: output/ch_PP-OCRv4_det_server_train_110M
+  checkpoints: null
+  pretrained_model: output/official_student
   save_inference_dir: null
   use_visualdl: false
   infer_img: doc/imgs_en/img_10.jpg
@@ -71,7 +71,7 @@ Train:
     name: SimpleDataSet
     data_dir: ./train_data/
     label_file_list:
-      - ./train_data/zongshuju/train.txt
+      - ./train_data/total_data/train.txt
     ratio_list: [1.0]
     transforms:
     - DecodeImage:
@@ -104,11 +104,9 @@ Train:
         shrink_ratio: 0.4
         thresh_min: 0.3
         thresh_max: 0.7
-        total_epoch: *epoch_num
     - MakeShrinkMap:
         shrink_ratio: 0.4
         min_text_size: 8
-        total_epoch: *epoch_num
     - NormalizeImage:
         scale: 1./255.
         mean:
@@ -131,15 +129,15 @@ Train:
   loader:
     shuffle: true
     drop_last: false
-    batch_size_per_card: 16
-    num_workers: 16
+    batch_size_per_card: 28
+    num_workers: 14
 
 Eval:
   dataset:
     name: SimpleDataSet
     data_dir: ./train_data/
     label_file_list:
-      - ./train_data/zongshuju/eval.txt
+      - ./train_data/total_data/eval.txt
     transforms:
     - DecodeImage:
         img_mode: BGR
