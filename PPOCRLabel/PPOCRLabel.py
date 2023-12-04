@@ -874,9 +874,9 @@ class MainWindow(QMainWindow):
 
     def rotateImg(self, filename, k, _value):
         self.actions.rotateRight.setEnabled(_value)
-        pix = cv2.imread(filename)
+        pix = cv2.imdecode(np.fromfile(filename, dtype=np.uint8), -1)
         pix = np.rot90(pix, k)
-        cv2.imwrite(filename, pix)
+        cv2.imencode(".jpg",pix)[1].tofile(filename)
         self.canvas.update()
         self.loadFile(filename)
 
@@ -1912,7 +1912,6 @@ class MainWindow(QMainWindow):
 
         if mode == 'Manual':
             self.result_dic_locked = []
-            img = cv2.imread(self.filePath)
             width, height = self.image.width(), self.image.height()
             for shape in self.canvas.lockedShapes:
                 box = [[int(p[0] * width), int(p[1] * height)] for p in shape['ratio']]
@@ -2298,7 +2297,7 @@ class MainWindow(QMainWindow):
         import time
 
         start = time.time()
-        img = cv2.imread(self.filePath)
+        img = cv2.imdecode(np.fromfile(self.filePath, dtype=np.uint8), -1)
         res = self.table_ocr(img, return_ocr_result_in_table=True)
 
         TableRec_excel_dir = self.lastOpenDir + '/tableRec_excel_output/'

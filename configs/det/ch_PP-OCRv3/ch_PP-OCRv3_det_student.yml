@@ -4,14 +4,14 @@ Global:
   epoch_num: 200
   log_smooth_window: 20
   print_batch_step: 10
-  save_model_dir: ./output/ch_PP-OCR_V3_det/
+  save_model_dir: ./output/ch_PP-OCR_V3_det/best2/
   save_epoch_step: 10
   eval_batch_step:
   - 0
   - 200
   cal_metric_during_train: false
   pretrained_model: output/official_student_v3
-  checkpoints: output\ch_PP-OCR_V3_det\latest
+  checkpoints: output\best_v3\best_accuracy
   save_inference_dir: null
   use_visualdl: true
   infer_img: doc/imgs_en/img_10.jpg
@@ -43,12 +43,12 @@ Loss:
   beta: 10
   ohem_ratio: 3
 Optimizer:
-  name: Adam
+  name: AdamW
   beta1: 0.9
   beta2: 0.999
   lr:
     name: Cosine
-    learning_rate: 0.00025
+    learning_rate: 0.0003
     warmup_epoch: 2
   regularizer:
     name: L2
