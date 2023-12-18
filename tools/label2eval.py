@@ -7,7 +7,7 @@ train_set = open(f"{ouput_path}/train.txt".format(ouput_path=ouput_path), 'w', e
 eval_set = open(f"{ouput_path}/eval.txt".format(ouput_path=ouput_path), 'w', encoding='utf-8')
 input_list = input.readlines()
 random.shuffle(input_list)
-train_num = int(len(input_list) * 0.8)
+train_num = int(len(input_list) * 0.81)
 train_list = input_list[:train_num]
 eval_list = input_list[train_num:]
 for line in train_list:

@@ -1,16 +1,16 @@
 Global:
   debug: false
   use_gpu: true
-  epoch_num: 200
+  epoch_num: 300
   log_smooth_window: 20
   print_batch_step: 10
-  save_model_dir: ./output/ch_PP-OCRv4
+  save_model_dir: ./output/ch_PP-OCRv4_new
   save_epoch_step: 10
   eval_batch_step:
   - 0
   - 50
   cal_metric_during_train: false
-  checkpoints:
+  checkpoints: ./output/ch_PP-OCRv4_new/latest
   pretrained_model: ./output/ch_PP-OCRv4_det_train/best_accuracy
   save_inference_dir: null
   use_visualdl: true
@@ -20,7 +20,7 @@ Global:
 
 Architecture:
   model_type: det
-  algorithm: DB++
+  algorithm: DB
   Transform: null
   Backbone:
     name: PPLCNetV3
@@ -48,18 +48,18 @@ Optimizer:
   beta2: 0.999
   lr:
     name: Cosine
-    learning_rate: 0.0003
-    warmup_epoch: 5
+    learning_rate: 0.0004
+    warmup_epoch: 2
   regularizer:
     name: L2
     factor: 5.0e-05
 
 PostProcess:
   name: DBPostProcess
-  thresh: 0.25
-  box_thresh: 0.3
+  thresh: 0.3
+  box_thresh: 0.6
   max_candidates: 1000
-  unclip_ratio: 1.6
+  unclip_ratio: 1.5
 
 Metric:
   name: DetMetric
@@ -128,7 +128,7 @@ Train:
   loader:
     shuffle: true
     drop_last: false
-    batch_size_per_card: 8
+    batch_size_per_card: 24
     num_workers: 0
 
 Eval:
@@ -143,7 +143,7 @@ Eval:
         channel_first: false
     - DetLabelEncode:
     - DetResizeForTest:
-        limit_side_len: 1280
+        limit_side_len: 960
         limit_type: max
     - NormalizeImage:
         scale: 1./255.
